@@ -30,5 +30,4 @@ steps:
       command: buildAndPush
       repository: server
       tags: |
-        $(build_number)
-        latest
+        $(Build.BuildNumber)
