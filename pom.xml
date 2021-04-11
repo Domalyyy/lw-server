@@ -11,7 +11,7 @@
 
     <groupId>ua.domaly</groupId>
     <artifactId>lw-server</artifactId>
-    <version>0.0-{revision}.0</version>
+    <version>0.0-${revision}.0</version>
     <name>lw-server</name>
     <description>Back-End</description>
 
