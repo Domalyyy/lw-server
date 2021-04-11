@@ -1,6 +1,6 @@
 FROM openjdk:11
 
-COPY target/lw-server-0.0.*.0.SERVER.jar /lw-server.jar
+COPY target/lw-server-0.0.*.jar /lw-server.jar
 
 EXPOSE 8080
 
