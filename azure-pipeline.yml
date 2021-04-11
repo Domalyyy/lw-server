@@ -28,7 +28,7 @@ steps:
     displayName: Build and Push
     inputs:
       command: buildAndPush
-      repository: domaly/server
+      repository: server
       tags: |
-        tag1
-        tag2
+        $(build_number)
+        latest
