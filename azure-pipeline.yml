@@ -13,7 +13,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       goals: 'install'
-      options: '-T 2C -B'
+      options: '-T 2C -B -Drevision=$(Build.BuildNumber)'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       jdkVersionOption: '1.11'
