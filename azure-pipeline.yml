@@ -2,7 +2,7 @@ pr:
   - features/*
 
 trigger:
-  - master
+  - main
 
 pool:
   vmImage: ubuntu-latest
@@ -30,4 +30,14 @@ steps:
       command: buildAndPush
       repository: domaly/server
       tags: |
-        $(Build.BuildNumber)
+        0.0-$(Build.BuildNumber).0
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+
+  - task: Docker@2
+    displayName: Build and Push
+    inputs:
+      command: buildAndPush
+      repository: domaly/server
+      tags: |
+        latest
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main'))
