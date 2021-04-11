@@ -28,6 +28,6 @@ steps:
     displayName: Build and Push
     inputs:
       command: buildAndPush
-      repository: server
+      repository: domaly/server
       tags: |
         $(Build.BuildNumber)
