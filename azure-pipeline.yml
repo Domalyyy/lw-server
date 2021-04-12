@@ -34,7 +34,7 @@ jobs:
         displayName: Build and Push
         inputs:
           command: buildAndPush
-          repository: server
+          repository: lw-server
           tags: |
             0.0-$(Build.BuildNumber).0
         condition: ne(variables['Build.SourceBranch'], variables['Main.Branch'])
@@ -43,7 +43,7 @@ jobs:
         displayName: Build and Push ($(Main.Branch))
         inputs:
           command: buildAndPush
-          repository: server
+          repository: lw-server
           tags: |
             latest
         condition: eq(variables['Build.SourceBranch'], variables['Main.Branch'])
