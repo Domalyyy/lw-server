@@ -1,8 +1,13 @@
 pr:
   - features/*
+  - develop/*
 
 trigger:
   - main
+
+variables:
+  - name: 'Main.Branch'
+    value: refs/heads/main
 
 pool:
   vmImage: ubuntu-latest
@@ -22,22 +27,22 @@ steps:
     displayName: Login to ACR
     inputs:
       command: login
-      containerRegistry: 'Docker Hub'
+      containerRegistry: server
 
   - task: Docker@2
     displayName: Build and Push
     inputs:
       command: buildAndPush
-      repository: domaly/server
+      repository: server
       tags: |
         0.0-$(Build.BuildNumber).0
-    condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
+    condition: ne(variables['Build.SourceBranch'], variables['Main.Branch'])
 
   - task: Docker@2
-    displayName: Build and Push
+    displayName: Build and Push ($(Main.Branch))
     inputs:
       command: buildAndPush
-      repository: domaly/server
+      repository: server
       tags: |
         latest
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    condition: eq(variables['Build.SourceBranch'], variables['Main.Branch'])
