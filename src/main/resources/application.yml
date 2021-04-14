@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:6603/lw?useSSL=false&createDatabaseIfNotExist=true
+    username: root
+    password: lwpassword
+  liquibase:
+    change-log: patches/main-changelog.xml
