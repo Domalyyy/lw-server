@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:6603/lw?useSSL=false&createDatabaseIfNotExist=true
+    username: root
+    password: lwpassword
+
+ui:
+  url: http://localhost:4200
