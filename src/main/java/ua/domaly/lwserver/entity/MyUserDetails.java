@@ -18,7 +18,12 @@ public class MyUserDetails implements UserDetails {
     private final boolean active;
     private final List<GrantedAuthority> authorities;
 
-    public MyUserDetails(final User user) {
+    /**
+     * Constructor.
+     *
+     * @param user {@link User}.
+     */
+    public MyUserDetails(User user) {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.active = user.isActive();

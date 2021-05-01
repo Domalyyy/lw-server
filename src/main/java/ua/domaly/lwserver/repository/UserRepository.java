@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 /**
- * {@inheritDoc}
+ * Repository layer for {@link User}.
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, BigInteger> {
@@ -18,5 +18,5 @@ public interface UserRepository extends CrudRepository<User, BigInteger> {
      * @param email an email.
      * @return user within optional.
      */
-    Optional<User> findByEmail(final String email);
+    Optional<User> findByEmail(String email);
 }

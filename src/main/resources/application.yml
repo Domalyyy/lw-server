@@ -9,5 +9,7 @@ spring:
   liquibase:
     change-log: patches/main-changelog.xml
 
-ui:
-  url:
+jwt:
+  secret: zdtlD3JK56m6wTTgsNFhqzjqP
+  issuer: domaly.lwserver
+  expiration: 86400000
