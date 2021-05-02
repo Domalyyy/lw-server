@@ -1,10 +1,11 @@
 package ua.domaly.lwserver.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import ua.domaly.lwserver.entity.dto.UserView;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,14 +14,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
-import java.math.BigInteger;
 
 /**
  * User entity.
  */
-@Entity
 @Setter
 @Getter
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     public enum Role {
         USER,
@@ -36,7 +39,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Integer id;
 
     @NonNull
     private String firstName;
@@ -58,23 +61,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
     private Gradation gradation;
-
-    /**
-     * Method to transform {@link User} to {@link UserView}.
-     *
-     * @return {@link UserView}.
-     */
-    public UserView toUserView() {
-        return UserView.builder()
-                .id(id)
-                .firstName(firstName)
-                .lastName(lastName)
-                .email(email)
-                .gradation(gradation)
-                .role(role)
-                .build();
-    }
 }
