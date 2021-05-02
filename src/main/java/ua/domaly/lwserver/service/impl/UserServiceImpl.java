@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * {@inheritDoc}
      */
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * {@inheritDoc}
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final var user = userRepository
                 .findByEmail(username)
                 .orElseThrow(
@@ -42,5 +42,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 );
 
         return new MyUserDetails(user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<User> save(final User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("User with email " + user.getEmail() + " is already exist");
+        }
+
+        return Optional.of(userRepository.save(user));
     }
 }

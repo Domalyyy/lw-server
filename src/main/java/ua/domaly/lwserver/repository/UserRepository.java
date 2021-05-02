@@ -4,14 +4,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ua.domaly.lwserver.entity.User;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 /**
  * Repository layer for {@link User}.
  */
 @Repository
-public interface UserRepository extends CrudRepository<User, BigInteger> {
+public interface UserRepository extends CrudRepository<User, Integer> {
     /**
      * Method to fina a user by email.
      *

@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import ua.domaly.lwserver.entity.User;
 
-import java.math.BigInteger;
-
 /**
  * DTO to re-present {@link User}.
  */
@@ -14,7 +12,7 @@ import java.math.BigInteger;
 @Setter
 @Builder
 public class UserView {
-    private BigInteger id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;

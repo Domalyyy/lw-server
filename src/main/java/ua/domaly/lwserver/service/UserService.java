@@ -11,10 +11,18 @@ import java.util.Optional;
 @Service
 public interface UserService {
     /**
-     * Method to fina a user by email.
+     * Method to find a user by email.
      *
      * @param email an email.
      * @return user within optional.
      */
     Optional<User> findByEmail(String email);
+
+    /**
+     * Method to create a new user.
+     *
+     * @param user {@link User}.
+     * @return user within optional.
+     */
+    Optional<User> save(User user);
 }

@@ -2,18 +2,16 @@ package ua.domaly.lwserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ua.domaly.lwserver.entity.MyUserDetails;
 import ua.domaly.lwserver.entity.dto.AuthRequest;
+import ua.domaly.lwserver.entity.dto.UserRegistrationDTO;
 import ua.domaly.lwserver.entity.dto.UserView;
-import ua.domaly.lwserver.service.UserService;
-import ua.domaly.lwserver.utils.JwtUtils;
+import ua.domaly.lwserver.service.AuthenticationService;
 
 import javax.validation.Valid;
 
@@ -24,9 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtTokenUtil;
+    private final AuthenticationService authenticationService;
 
     /**
      * API to login.
@@ -34,17 +30,18 @@ public class AuthenticationController {
      * @return authenticated user.
      */
     @PostMapping("/login")
-    public ResponseEntity<UserView> authentication(@RequestBody @Valid AuthRequest request) {
-        final var authenticationToken = new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
-        final var authenticate = authenticationManager.authenticate(authenticationToken);
-        final var myUserDetails = (MyUserDetails) authenticate.getPrincipal();
-        final var user = userService.findByEmail(myUserDetails.getUsername())
-                .orElseThrow(() -> new IllegalStateException("User was not found by provided email"));
-        final var userView = user.toUserView();
-        userView.setToken(jwtTokenUtil.generateAccessToken(user));
+    public ResponseEntity<UserView> authentication(@RequestBody @Valid final AuthRequest authRequest) {
+        final var userView = authenticationService.login(authRequest)
+                .orElseThrow(() -> new BadCredentialsException("Incorrect username or password"));
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(user))
-                .body(userView);
+        return new ResponseEntity<>(userView, HttpStatus.OK);
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<UserView> registration(@RequestBody @Valid final UserRegistrationDTO userRegistrationDTO) {
+        final var userView = authenticationService.register(userRegistrationDTO)
+                .orElseThrow(() -> new IllegalArgumentException("Unsuccessful registration"));
+
+        return new ResponseEntity<>(userView, HttpStatus.CREATED);
     }
 }
