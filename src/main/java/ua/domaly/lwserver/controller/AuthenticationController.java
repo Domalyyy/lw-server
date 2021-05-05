@@ -30,15 +30,15 @@ public class AuthenticationController {
      * @return authenticated user.
      */
     @PostMapping("/login")
-    public ResponseEntity<UserView> authentication(@RequestBody @Valid final AuthRequest authRequest) {
+    public ResponseEntity<UserView> login(@RequestBody @Valid final AuthRequest authRequest) {
         final var userView = authenticationService.login(authRequest)
                 .orElseThrow(() -> new BadCredentialsException("Incorrect username or password"));
 
         return new ResponseEntity<>(userView, HttpStatus.OK);
     }
 
-    @PostMapping("/registration")
-    public ResponseEntity<UserView> registration(@RequestBody @Valid final UserRegistrationDTO userRegistrationDTO) {
+    @PostMapping("/signup")
+    public ResponseEntity<UserView> signup(@RequestBody @Valid final UserRegistrationDTO userRegistrationDTO) {
         final var userView = authenticationService.register(userRegistrationDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Unsuccessful registration"));
 

@@ -19,4 +19,5 @@ public class UserView {
     private User.Role role;
     private User.Gradation gradation;
     private String token;
+    private Integer completedTasks;
 }

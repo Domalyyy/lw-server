@@ -10,10 +10,15 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
+import java.util.List;
 
 /**
  * User entity.
@@ -63,4 +68,17 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gradation gradation;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_task",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    private List<Task> completedTasks;
+
+    public void addCompletedTask(final Task task) {
+        if (!completedTasks.contains(task)) {
+            completedTasks.add(task);
+        }
+    }
 }

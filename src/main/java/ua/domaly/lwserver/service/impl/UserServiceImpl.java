@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.domaly.lwserver.entity.MyUserDetails;
 import ua.domaly.lwserver.entity.User;
 import ua.domaly.lwserver.repository.UserRepository;
@@ -17,8 +18,9 @@ import static java.lang.String.format;
 /**
  * {@inheritDoc}
  */
-@Service
+@Transactional
 @RequiredArgsConstructor
+@Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
@@ -28,6 +30,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<User> findByEmail(final String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findById(final Integer id) {
+        return userRepository.findById(id);
     }
 
     /**
@@ -53,6 +60,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new IllegalArgumentException("User with email " + user.getEmail() + " is already exist");
         }
 
+        return Optional.of(userRepository.save(user));
+    }
+
+    @Override
+    public Optional<User> update(final User user) {
         return Optional.of(userRepository.save(user));
     }
 }

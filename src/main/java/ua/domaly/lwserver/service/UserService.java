@@ -1,6 +1,7 @@
 package ua.domaly.lwserver.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.domaly.lwserver.entity.User;
 
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Optional;
 /**
  * Service layer for {@link User}.
  */
+@Transactional
 @Service
 public interface UserService {
     /**
@@ -25,4 +27,8 @@ public interface UserService {
      * @return user within optional.
      */
     Optional<User> save(User user);
+
+    Optional<User> update(User user);
+
+    Optional<User> findById(Integer id);
 }
