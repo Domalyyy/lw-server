@@ -3,12 +3,14 @@ package ua.domaly.lwserver.filter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ua.domaly.lwserver.entity.MyUserDetails;
 import ua.domaly.lwserver.service.UserService;
 import ua.domaly.lwserver.utils.JwtUtils;
 
@@ -17,11 +19,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 import static ch.qos.logback.core.util.OptionHelper.isEmpty;
 import static java.util.List.of;
-import static java.util.Optional.ofNullable;
 
+/**
+ * Class to filter bu JWT.
+ */
 @Log4j2
 @RequiredArgsConstructor
 @Component
@@ -47,13 +52,15 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        final var userDetails = (UserDetails) userService
+        final var user = userService
                 .findByEmail(jwtUtils.getUsername(token))
-                .orElse(null);
+                .orElseThrow(() -> new BadCredentialsException("Incorrect token"));
+
+        final var userDetails = new MyUserDetails(user);
 
         final var authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null,
-                ofNullable(userDetails).map(UserDetails::getAuthorities).orElse(of())
+                Optional.of(userDetails).map(UserDetails::getAuthorities).orElse(of())
         );
 
         final var webAuthenticationDetails = new WebAuthenticationDetailsSource().buildDetails(request);

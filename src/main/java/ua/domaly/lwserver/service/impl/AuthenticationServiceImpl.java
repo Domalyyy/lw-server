@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.domaly.lwserver.entity.MyUserDetails;
 import ua.domaly.lwserver.entity.User;
 import ua.domaly.lwserver.entity.dto.AuthRequest;
@@ -19,6 +20,7 @@ import java.util.Optional;
 /**
  * {@inheritDoc}
  */
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -64,6 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .gradation(user.getGradation())
                 .role(user.getRole())
                 .token(jwtTokenUtil.generateAccessToken(user))
+                .completedTasks(user.getCompletedTasks().size())
                 .build();
     }
 

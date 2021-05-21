@@ -1,5 +1,7 @@
 package ua.domaly.lwserver.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 /**
  * Class that implements {@link UserDetails}.
  */
+@Setter
+@Getter
 public class MyUserDetails implements UserDetails {
     private final String userName;
     private final String password;
