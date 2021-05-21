@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * DTO to present answer from user.
+ */
 @Setter
 @Getter
 public class TaskAnswer {

@@ -67,7 +67,8 @@ public class User {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    private Gradation gradation;
+    @Builder.Default
+    private Gradation gradation = Gradation.JUNIOR;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -76,6 +77,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "task_id"))
     private List<Task> completedTasks;
 
+    /**
+     * Method to add task that was passed to user.
+     *
+     * @param task {@link Task}.
+     */
     public void addCompletedTask(final Task task) {
         if (!completedTasks.contains(task)) {
             completedTasks.add(task);

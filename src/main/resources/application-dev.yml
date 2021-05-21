@@ -3,3 +3,8 @@ spring:
     url: jdbc:mysql://localhost:6603/lw?useSSL=false&createDatabaseIfNotExist=true
     username: root
     password: lwpassword
+
+gradation:
+  junior: 5
+  middle: 10
+  senior: 15

@@ -11,8 +11,22 @@ import java.util.List;
 /**
  * Repository layer for {@link User}.
  */
-@Repository
 @Transactional
+@Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    List<Task> findFirst10TaskDistinctByProgrammingLanguageAndUsersIdNot(String programmingLanguage, Integer userId);
+    /**
+     * Method to get tasks by programming language.
+     *
+     * @param programmingLanguage programming language.
+     * @return list of tasks.
+     */
+    List<Task> findTasksByProgrammingLanguage(String programmingLanguage);
+
+    /**
+     * Method to get tasks to needed user.
+     *
+     * @param userId id of user.
+     * @return list of tasks.
+     */
+    List<Task> findTasksByUsersId(Integer userId);
 }

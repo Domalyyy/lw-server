@@ -13,6 +13,14 @@ import java.util.Optional;
 @Service
 public interface UserService {
     /**
+     * Method to find a user by id.
+     *
+     * @param id id of user.
+     * @return user within optional.
+     */
+    Optional<User> findById(Integer id);
+
+    /**
      * Method to find a user by email.
      *
      * @param email an email.
@@ -28,7 +36,23 @@ public interface UserService {
      */
     Optional<User> save(User user);
 
+    /**
+     * Method to update user.
+     *
+     * @param user {@link User}.
+     * @return updated user within optional.
+     */
     Optional<User> update(User user);
 
-    Optional<User> findById(Integer id);
+    /**
+     * Method to check gradation update.
+     */
+    User checkAndUpdateGradation(final User user);
+
+    /**
+     * Method to get needed count to update.
+     *
+     * @return needed count to update.
+     */
+    Integer getNeededCountToUpdate(final User user);
 }

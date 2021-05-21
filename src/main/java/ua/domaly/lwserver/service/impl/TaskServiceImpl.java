@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * {@inheritDoc}
+ */
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -20,14 +23,25 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Task> findByProgrammingLanguageAndUserId(final String programmingLanguage, final Integer userId) {
-        return taskRepository.findFirst10TaskDistinctByProgrammingLanguageAndUsersIdNot(programmingLanguage, userId);
+        final var tasksByProgrammingLanguage = taskRepository.findTasksByProgrammingLanguage(programmingLanguage);
+        final var tasksByUsersIdNot = taskRepository.findTasksByUsersId(userId);
+
+        return tasksByProgrammingLanguage.stream()
+                .filter(element -> !tasksByUsersIdNot.contains(element))
+                .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Integer complete(final TaskAnswer taskAnswer) {
-        final var user = userService.findById(taskAnswer.getUserId())
+        var user = userService.findById(taskAnswer.getUserId())
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
         final var answers = taskAnswer.getUserAnswers()
@@ -35,53 +49,24 @@ public class TaskServiceImpl implements TaskService {
                 .map(answer -> answer.split(" "))
                 .collect(Collectors.toList());
 
-        final List<Task> tasks = new ArrayList<>();
+        final List<Task> answeredTasks = new ArrayList<>();
         answers.forEach(answer -> {
             if (answer[1].equals("correct")) {
-                tasks.add(
+                answeredTasks.add(
                         taskRepository.findById(Integer.valueOf(answer[0]))
                                 .orElseThrow(() -> new IllegalStateException("Task not found"))
                 );
             }
         });
 
-//        tasks.forEach(task -> user.getCompletedTasks().forEach(completedTasks -> {
-//                    if (!task.getId().equals(completedTasks.getId())) {
-//                        user.addCompletedTask(completedTasks);
-//                        task.addPassedUser(user);
-//                    }
-//                })
-//        );
-
-        tasks.forEach(user::addCompletedTask);
-
-//        user.setCompletedTasks(tasks);
+        answeredTasks.forEach(user::addCompletedTask);
+        user = userService.checkAndUpdateGradation(user);
         userService.update(user);
 
-//        final List<User> users = new ArrayList<>();
-//        users.add(user);
-//
-//        tasks.forEach(task -> users.addAll(task.getUsers()));
-//        users.forEach(passedUser -> tasks.forEach(task -> {
-//            if (passedUser.task.getUsers())
-//        }));
+        final var finalUser = user;
+        answeredTasks.forEach(task -> task.addPassedUser(finalUser));
+        taskRepository.saveAll(answeredTasks);
 
-//        tasks.forEach(task -> task.getUsers().forEach(passedUser -> {
-//            if (!passedUser.getId().equals(user.getId())) {
-//                task.addPassedUser(user);
-//            }
-//        }));
-
-//        tasks.forEach(task -> {
-//            users.addAll(task.getUsers());
-//        });
-//        tasks.forEach(task -> users.add(task.getUsers()));
-//        tasks.forEach(task -> task.setUsers(users));
-        tasks.forEach(task -> {
-            task.addPassedUser(user);
-        });
-        taskRepository.saveAll(tasks);
-
-        return tasks.size();
+        return answeredTasks.size();
     }
 }

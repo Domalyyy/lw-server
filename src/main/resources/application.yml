@@ -13,3 +13,8 @@ jwt:
   secret: zdtlD3JK56m6wTTgsNFhqzjqP
   issuer: domaly.lwserver
   expiration: 86400000
+
+gradation:
+  junior: 20
+  middle: 50
+  senior: 100

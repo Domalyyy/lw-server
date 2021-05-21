@@ -52,6 +52,11 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    /**
+     * Method to add user that has completed current task.
+     *
+     * @param user {@link User}.
+     */
     public void addPassedUser(final User user) {
         if (!users.contains(user)) {
             users.add(user);
