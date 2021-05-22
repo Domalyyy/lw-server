@@ -18,7 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User entity.
@@ -36,10 +38,11 @@ public class User {
     }
 
     public enum Gradation {
+        NOT_REQUIRED,
+        TRAINEE,
         JUNIOR,
         MIDDLE,
-        SENIOR,
-        EXPERT
+        SENIOR
     }
 
     @Id
@@ -67,8 +70,7 @@ public class User {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private Gradation gradation = Gradation.JUNIOR;
+    private Gradation gradation;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -76,6 +78,30 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
     private List<Task> completedTasks;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "friends_requests",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "requester_id"))
+    private Set<User> friendRequests = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "friends_requests",
+            joinColumns = @JoinColumn(name = "requester_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> friendRequestsOf = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<User> friends = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "friend_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> friendOf = new HashSet<>();
 
     /**
      * Method to add task that was passed to user.
@@ -86,5 +112,61 @@ public class User {
         if (!completedTasks.contains(task)) {
             completedTasks.add(task);
         }
+    }
+
+    /**
+     * Method to check friend request.
+     *
+     * @param requester the request.
+     * @return true/false.
+     */
+    public boolean hasRequest(User requester) {
+        return friendRequests.contains(requester);
+    }
+
+    /**
+     * Method to add friend request.
+     *
+     * @param friend an user.
+     */
+    public void addFriendRequest(User friend) {
+        friendRequests.add(friend);
+    }
+
+    /**
+     * Method to remove friend request.
+     *
+     * @param friend an user.
+     */
+    public void removeFriendRequest(User friend) {
+        friendRequests.remove(friend);
+    }
+
+    /**
+     * Method to check friend.
+     *
+     * @param friend an user.
+     * @return true/false.
+     */
+    public boolean hasFriend(User friend) {
+        return friends.contains(friend);
+    }
+
+    /**
+     * Method to add friend.
+     *
+     * @param friend an user.
+     */
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    /**
+     * Method to remove friend.
+     *
+     * @param friend an user.
+     */
+    public void removeFriend(User friend) {
+        friends.remove(friend);
     }
 }

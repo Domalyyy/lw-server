@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 /**
  * {@inheritDoc}
  */
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -27,12 +26,14 @@ public class TaskServiceImpl implements TaskService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public List<Task> findByProgrammingLanguageAndUserId(final String programmingLanguage, final Integer userId) {
         final var tasksByProgrammingLanguage = taskRepository.findTasksByProgrammingLanguage(programmingLanguage);
         final var tasksByUsersIdNot = taskRepository.findTasksByUsersId(userId);
 
         return tasksByProgrammingLanguage.stream()
                 .filter(element -> !tasksByUsersIdNot.contains(element))
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
@@ -40,6 +41,7 @@ public class TaskServiceImpl implements TaskService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Integer complete(final TaskAnswer taskAnswer) {
         var user = userService.findById(taskAnswer.getUserId())
                 .orElseThrow(() -> new IllegalStateException("User not found"));

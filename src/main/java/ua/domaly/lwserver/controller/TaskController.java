@@ -33,7 +33,8 @@ public class TaskController {
      * @return list of tasks.
      */
     @GetMapping
-    public ResponseEntity<List<Task>> getTasksByPrLanguage(@RequestParam final String programmingLanguage, @RequestParam final Integer userId) {
+    public ResponseEntity<List<Task>> getTasksByProgrammingLanguage(@RequestParam String programmingLanguage,
+                                                                    @RequestParam final Integer userId) {
         final var userView = taskService.findByProgrammingLanguageAndUserId(programmingLanguage, userId);
 
         return new ResponseEntity<>(userView, HttpStatus.OK);
