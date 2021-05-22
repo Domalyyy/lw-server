@@ -1,24 +1,22 @@
 -- liquibase formatted sql
--- changeset domalchuk:1 failOnError:true logicalFilePath: user.sql
-CREATE TABLE IF NOT EXISTS `user`
+-- changeset user:1 failOnError:true
+CREATE TABLE `user`
 (
-    `id`         BIGINT                     NOT NULL AUTO_INCREMENT,
-    `first_name` VARCHAR(50)                NOT NULL,
-    `last_name`  VARCHAR(50)                NOT NULL,
-    `username`   VARCHAR(50)                NOT NULL,
-    `email`      VARCHAR(50)                NULL     DEFAULT NULL,
-    `password`   VARCHAR(255)               NOT NULL,
-    `created_at` TIMESTAMP                  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `intro`      TINYTEXT                   NULL,
-    `role`       ENUM ('USER', 'RECRUITER') NOT NULL,
-    `rank`       INT                        NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `uq_username` (`username` ASC),
-    UNIQUE INDEX `uq_email` (`email` ASC)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  ROW_FORMAT = COMPACT
-;
+    `id`         int    NOT NULL AUTO_INCREMENT,
+    `active`     bit(1) NOT NULL,
+    `email`      varchar(255) DEFAULT NULL,
+    `first_name` varchar(255) DEFAULT NULL,
+    `gradation`  varchar(255) DEFAULT NULL,
+    `last_name`  varchar(255) DEFAULT NULL,
+    `password`   varchar(255) DEFAULT NULL,
+    `role`       varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+-- changeset user:2 failOnError:true
+INSERT INTO user (active, email, first_name, gradation, last_name, password, role)
+VALUES (true, 'programmer@gmail.com', 'Програміст', 'TRAINEE', 'Тест', '$2a$10$UQscJe.mJiN/W8WsgvaqjO4gti49REbVfT46JFyKceM/N4ROerazG', 'USER'),
+       (true, 'recruiter@gmail.com', 'Рекрутер', 'NOT_REQUIRED', 'Тест','$2a$10$UQscJe.mJiN/W8WsgvaqjO4gti49REbVfT46JFyKceM/N4ROerazG', 'RECRUITER');
 
 /*
 -- rollback
