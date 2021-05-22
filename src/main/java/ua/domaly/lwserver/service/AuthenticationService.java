@@ -11,7 +11,6 @@ import java.util.Optional;
 /**
  * Service for authentication actions.
  */
-@Transactional
 @Service
 public interface AuthenticationService {
     /**
@@ -20,6 +19,7 @@ public interface AuthenticationService {
      * @param authRequest {@link AuthRequest}.
      * @return user as {@link UserView}.
      */
+    @Transactional
     Optional<UserView> login(AuthRequest authRequest);
 
     /**
@@ -28,5 +28,6 @@ public interface AuthenticationService {
      * @param userRegistrationDTO {@link UserRegistrationDTO}.
      * @return user as {@link UserView}.
      */
+    @Transactional
     Optional<UserView> register(UserRegistrationDTO userRegistrationDTO);
 }

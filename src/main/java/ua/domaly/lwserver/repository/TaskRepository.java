@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Repository layer for {@link User}.
  */
-@Transactional
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
     /**
@@ -20,6 +19,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
      * @param programmingLanguage programming language.
      * @return list of tasks.
      */
+    @Transactional
     List<Task> findTasksByProgrammingLanguage(String programmingLanguage);
 
     /**
@@ -28,5 +28,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
      * @param userId id of user.
      * @return list of tasks.
      */
+    @Transactional
     List<Task> findTasksByUsersId(Integer userId);
 }

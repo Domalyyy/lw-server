@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Service layer for {@link Task}.
  */
-@Transactional
 @Service
 public interface TaskService {
     /**
@@ -20,6 +19,7 @@ public interface TaskService {
      * @param userId              id of user.
      * @return list of tasks.
      */
+    @Transactional
     List<Task> findByProgrammingLanguageAndUserId(String programmingLanguage, Integer userId);
 
     /**
@@ -28,5 +28,6 @@ public interface TaskService {
      * @param taskAnswer answer from user.
      * @return count correct answers.
      */
+    @Transactional
     Integer complete(TaskAnswer taskAnswer);
 }

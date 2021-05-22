@@ -20,7 +20,6 @@ import java.util.Optional;
 /**
  * {@inheritDoc}
  */
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -33,6 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Optional<UserView> login(final AuthRequest authRequest) {
         final var authenticationToken = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
         final var authenticate = authenticationManager.authenticate(authenticationToken);
@@ -49,6 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Optional<UserView> register(final UserRegistrationDTO userRegistrationDTO) {
         final var user = this.userRegistrationDTOToUser(userRegistrationDTO);
 

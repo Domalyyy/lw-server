@@ -3,13 +3,14 @@ package ua.domaly.lwserver.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.domaly.lwserver.entity.User;
+import ua.domaly.lwserver.entity.dto.UserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Service layer for {@link User}.
  */
-@Transactional
 @Service
 public interface UserService {
     /**
@@ -18,6 +19,7 @@ public interface UserService {
      * @param id id of user.
      * @return user within optional.
      */
+    @Transactional
     Optional<User> findById(Integer id);
 
     /**
@@ -26,6 +28,7 @@ public interface UserService {
      * @param email an email.
      * @return user within optional.
      */
+    @Transactional
     Optional<User> findByEmail(String email);
 
     /**
@@ -34,25 +37,52 @@ public interface UserService {
      * @param user {@link User}.
      * @return user within optional.
      */
+    @Transactional
     Optional<User> save(User user);
 
     /**
      * Method to update user.
      *
      * @param user {@link User}.
-     * @return updated user within optional.
      */
-    Optional<User> update(User user);
+    @Transactional
+    void update(User user);
 
     /**
      * Method to check gradation update.
      */
-    User checkAndUpdateGradation(final User user);
+    @Transactional
+    User checkAndUpdateGradation(User user);
 
     /**
      * Method to get needed count to update.
      *
      * @return needed count to update.
      */
-    Integer getNeededCountToUpdate(final User user);
+    @Transactional
+    Integer getNeededCountToUpdate(User user);
+
+    @Transactional
+    List<UserDTO> getUsersByProgrammingLanguage(String programmingLanguage, Integer userId);
+
+    @Transactional
+    void sendFriendRequest(Integer firstUserId, Integer secondUserId);
+
+    @Transactional
+    void cancelFriendRequest(Integer firstUserId, Integer secondUserId);
+
+    @Transactional
+    List<UserDTO> getFriendRequests(Integer userId);
+
+    @Transactional
+    void submitFriendRequests(Integer firstUserId, Integer secondUserId);
+
+    @Transactional
+    void declineFriendRequests(Integer firstUserId, Integer secondUserId);
+
+    @Transactional
+    List<UserDTO> getFriends(Integer userId);
+
+    @Transactional
+    void deleteFriend(Integer firstUserId, Integer secondUserId);
 }
