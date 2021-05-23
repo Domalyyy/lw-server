@@ -38,7 +38,7 @@ public class MessageServiceImpl implements MessageService {
         final var user = userService.findById(userId).get();
         final var interlocutor = userService.findById(interlocutorId).get();
 
-        return messageRepository.findByRecipientOrSenderOrderByPostedDesc(user, interlocutor);
+        return messageRepository.findByRecipientOrSenderOrderByPostedAsc(user, interlocutor);
     }
 
     @Override

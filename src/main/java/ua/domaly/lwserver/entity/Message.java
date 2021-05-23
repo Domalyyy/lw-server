@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -43,5 +42,6 @@ public class Message {
     private String body;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
     private Date posted = new Date();
 }

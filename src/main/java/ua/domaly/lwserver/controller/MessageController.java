@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/message")
 public class MessageController {
     private final MessageService messageService;
-    private final UserService userService;
 
     @GetMapping(value = "/dialog")
     public ResponseEntity<List<MessageView>> getDialog(@RequestParam final Integer userId,

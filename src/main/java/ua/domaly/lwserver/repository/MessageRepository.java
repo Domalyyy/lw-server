@@ -18,8 +18,8 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
             "FROM Message m " +
             "WHERE m.sender = :sender AND m.recipient = :recipient " +
             "   OR m.sender = :recipient AND m.recipient = :sender " +
-            "ORDER BY m.posted DESC")
-    List<Message> findByRecipientOrSenderOrderByPostedDesc(@Param("sender") User sender, @Param("recipient") User recipient);
+            "ORDER BY m.posted ASC")
+    List<Message> findByRecipientOrSenderOrderByPostedAsc(@Param("sender") User sender, @Param("recipient") User recipient);
 
     @Query("SELECT m " +
             "FROM Message m " +

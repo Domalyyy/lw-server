@@ -23,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
     @Transactional
-    List<User> findAllByCompletedTasksProgrammingLanguage(String programmingLanguage);
+    List<User> findDistinctAllByCompletedTasksProgrammingLanguage(String programmingLanguage);
 }

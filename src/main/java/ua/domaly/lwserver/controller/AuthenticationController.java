@@ -38,7 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserView> signup(@RequestBody @Valid final UserRegistrationDTO userRegistrationDTO) {
+    public ResponseEntity<UserView> signup(@RequestBody final UserRegistrationDTO userRegistrationDTO) {
         final var userView = authenticationService.register(userRegistrationDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Unsuccessful registration"));
 

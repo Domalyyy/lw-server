@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public List<UserDTO> getUsersByProgrammingLanguage(final String programmingLanguage, final Integer userId) {
         final var byId = userRepository.getById(userId);
-        final var users = userRepository.findAllByCompletedTasksProgrammingLanguage(programmingLanguage);
+        final var users = userRepository.findDistinctAllByCompletedTasksProgrammingLanguage(programmingLanguage);
         final List<UserDTO> usersSearch = new ArrayList<>();
 
         users.forEach(user -> usersSearch.add(

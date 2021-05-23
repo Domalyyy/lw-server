@@ -59,7 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private UserView userToUserView(final User user) {
-        return UserView.builder()
+        final var userView = UserView.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -67,8 +67,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .gradation(user.getGradation())
                 .role(user.getRole())
                 .token(jwtTokenUtil.generateAccessToken(user))
-                .completedTasks(user.getCompletedTasks().size())
                 .build();
+
+        if (user.getCompletedTasks() != null) {
+            userView.setCompletedTasks(user.getCompletedTasks().size());
+        }
+
+        return userView;
     }
 
     private User userRegistrationDTOToUser(final UserRegistrationDTO userRegistrationDTO) {
@@ -76,6 +81,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(userRegistrationDTO.getFirstName())
                 .lastName(userRegistrationDTO.getLastName())
                 .email(userRegistrationDTO.getEmail())
+                .gradation(User.Gradation.valueOf(userRegistrationDTO.getGradation()))
                 .password(passwordEncoder.encode(userRegistrationDTO.getPassword()))
                 .role(User.Role.valueOf(userRegistrationDTO.getRole()))
                 .active(true)
