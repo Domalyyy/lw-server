@@ -90,6 +90,19 @@ VALUES (@recruiterId, @f1),
        (@programmerId, @f10),
        (@programmerId, @f11);
 
+INSERT INTO friends (friend_id, user_id)
+VALUES (@recruiterId, @f1),
+       (@recruiterId, @f2),
+       (@recruiterId, @f3),
+       (@recruiterId, @f4),
+       (@recruiterId, @f5),
+       (@recruiterId, @f6),
+       (@recruiterId, @f7),
+       (@programmerId, @f8),
+       (@programmerId, @f9),
+       (@programmerId, @f10),
+       (@programmerId, @f11);
+
 /*
 -- rollback
 DROP TABLE friends;

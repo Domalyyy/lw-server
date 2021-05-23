@@ -10,4 +10,6 @@
     <include file="task.sql" relativeToChangelogFile="true"/>
     <include file="friend.sql" relativeToChangelogFile="true"/>
     <include file="friend-request.sql" relativeToChangelogFile="true"/>
+    <include file="completes.sql" relativeToChangelogFile="true"/>
+    <include file="message.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
