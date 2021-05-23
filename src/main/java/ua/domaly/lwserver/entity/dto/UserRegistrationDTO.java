@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 public class UserRegistrationDTO {
     @NotBlank(message = "Please, provide first name")
     private String firstName;
+    @NotBlank(message = "Please, provide firstName")
+    private String gradation;
     @NotBlank(message ="Please, provide last name")
     private String lastName;
     @Email(message = "Looks like email is wrong")
