@@ -70,8 +70,9 @@ public class UserController {
     public ResponseEntity<Integer> getNeededCountToUpdate(@RequestParam final Integer userId) {
         final var user = userService.findById(userId)
                 .orElseThrow(() -> new IllegalStateException(String.format(USER_NOT_FOUND, userId)));
+        final var userWithCheckedGradation = userService.checkAndUpdateGradation(user);
 
-        return new ResponseEntity<>(userService.getNeededCountToUpdate(user), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getNeededCountToUpdate(userWithCheckedGradation), HttpStatus.OK);
     }
 
     /**
