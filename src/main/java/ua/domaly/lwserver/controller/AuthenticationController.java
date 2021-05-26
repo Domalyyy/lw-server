@@ -37,6 +37,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(userView, HttpStatus.OK);
     }
 
+    /**
+     * API to register.
+     *
+     * @return authenticated user.
+     */
     @PostMapping("/signup")
     public ResponseEntity<UserView> signup(@RequestBody final UserRegistrationDTO userRegistrationDTO) {
         final var userView = authenticationService.register(userRegistrationDTO)

@@ -25,7 +25,7 @@ import static ch.qos.logback.core.util.OptionHelper.isEmpty;
 import static java.util.List.of;
 
 /**
- * Class to filter bu JWT.
+ * Class to filter JWT.
  */
 @Log4j2
 @RequiredArgsConstructor
