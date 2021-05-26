@@ -7,7 +7,6 @@
 
 1. MySql 8.0
 2. Spring Boot 2.4.4 (Java 11)
-3. Angular 11 (NPM 10)
 
 # Запуск проекту
 
