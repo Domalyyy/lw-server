@@ -34,7 +34,7 @@ jobs:
         displayName: Build and Push
         inputs:
           command: buildAndPush
-          repository: lw-server
+          repository: domaly/lw-server
           tags: |
             0.0-$(Build.BuildNumber).0
             latest
