@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 UserDTO.builder()
                         .id(user.getId())
                         .firstName(user.getFirstName())
-                        .lastName(user.getFirstName())
+                        .lastName(user.getLastName())
                         .email(user.getEmail())
                         .gradation(user.getGradation())
                         .generalCompletedTasks(user.getCompletedTasks().size())
