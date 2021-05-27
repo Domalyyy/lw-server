@@ -19,7 +19,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -77,7 +76,7 @@ public class User {
             name = "user_task",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private List<Task> completedTasks;
+    private Set<Task> completedTasks = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "friends_requests",
@@ -109,9 +108,7 @@ public class User {
      * @param task {@link Task}.
      */
     public void addCompletedTask(final Task task) {
-        if (!completedTasks.contains(task)) {
-            completedTasks.add(task);
-        }
+        completedTasks.add(task);
     }
 
     /**

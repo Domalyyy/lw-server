@@ -17,7 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Task entity.
@@ -50,7 +51,7 @@ public class Task {
             name = "task_user",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
+    private Set<User> users = new HashSet<>();
 
     /**
      * Method to add user that has completed current task.
@@ -58,8 +59,6 @@ public class Task {
      * @param user {@link User}.
      */
     public void addPassedUser(final User user) {
-        if (!users.contains(user)) {
-            users.add(user);
-        }
+        users.add(user);
     }
 }
