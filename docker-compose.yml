@@ -22,8 +22,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
       - db
-    healthcheck:
-      disable: true
 
   ui:
     image: domaly/lw-ui:latest
@@ -31,5 +29,3 @@ services:
       - LW_SERVER=http://localhost:8080
     ports:
       - 8081:80
-    healthcheck:
-      disable: true

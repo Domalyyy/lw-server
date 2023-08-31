@@ -1,5 +1,10 @@
 package ua.domaly.lwserver.filter;
 
+import ch.qos.logback.core.util.OptionHelper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
@@ -14,15 +19,10 @@ import ua.domaly.lwserver.entity.MyUserDetails;
 import ua.domaly.lwserver.service.UserService;
 import ua.domaly.lwserver.utils.JwtUtils;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Optional;
 
-import static ch.qos.logback.core.util.OptionHelper.isEmpty;
-import static java.util.List.of;
 
 /**
  * Class to filter JWT.
@@ -38,10 +38,11 @@ public class JwtFilter extends OncePerRequestFilter {
      * {@inheritDoc}
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain
+    ) throws ServletException, IOException {
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (isEmpty(header) || !header.startsWith("Bearer ")) {
+        if (OptionHelper.isEmpty(header) || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
@@ -60,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         final var authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null,
-                Optional.of(userDetails).map(UserDetails::getAuthorities).orElse(of())
+                Optional.of(userDetails).map(UserDetails::getAuthorities).orElse(Collections.emptyList())
         );
 
         final var webAuthenticationDetails = new WebAuthenticationDetailsSource().buildDetails(request);

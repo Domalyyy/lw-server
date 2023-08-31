@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.domaly.lwserver.entity.dto.MessagePost;
 import ua.domaly.lwserver.entity.dto.MessageView;
 import ua.domaly.lwserver.service.MessageService;
-import ua.domaly.lwserver.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
